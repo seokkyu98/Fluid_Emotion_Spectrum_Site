@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +19,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://fluid-emotion-spectrum.com",
   },
+  other: {
+    "google-adsense-account": "ca-pub-5914309128739751",
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +31,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5914309128739751"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="bg-white antialiased">{children}</body>
     </html>
   );

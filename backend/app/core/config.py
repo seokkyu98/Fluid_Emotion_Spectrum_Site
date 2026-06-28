@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     claude_model: str = "claude-sonnet-4-6"
     allowed_origins: list[str] = [
         "http://localhost:3000",
+        "https://fluid-emotion-spectrum-site.vercel.app",
         "https://fluid-emotion-spectrum-site-iunoj6iwf-seokkyu.vercel.app",
     ]
     api_prefix: str = "/api/v1"

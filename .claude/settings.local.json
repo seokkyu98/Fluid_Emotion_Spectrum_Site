@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"C:\\\\Users\\\\tjrrb\\\\claude_project\\\\Fluid_Emotion_Spectrum_Project\" init)",
+      "Bash(git -C \"C:\\\\Users\\\\tjrrb\\\\claude_project\\\\Fluid_Emotion_Spectrum_Project\" remote add origin https://github.com/seokkyu98/Fluid_Emotion_Spectrum_Site.git)",
+      "Bash(git -C \"C:\\\\Users\\\\tjrrb\\\\claude_project\\\\Fluid_Emotion_Spectrum_Project\" remote -v)",
+      "Bash(npm --version)",
+      "PowerShell(Copy-Item *)",
+      "Bash(git config *)",
+      "Bash(git add *)"
+    ]
+  }
+}

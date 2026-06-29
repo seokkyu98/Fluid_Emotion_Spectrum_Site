@@ -29,17 +29,16 @@ export default function HomePage() {
         seedHex={current?.seed_hex ?? null}
       />
 
-      {palette && (
-        <div
-          className="fixed inset-0 pointer-events-none"
-          style={{ ...backgroundStyle, zIndex: 2 }}
-        />
-      )}
-
       <main
         className="relative flex min-h-screen flex-col items-center justify-center px-4"
         style={{ zIndex: 10 }}
       >
+        {palette && (
+          <div
+            className="fixed inset-0 pointer-events-none"
+            style={backgroundStyle}
+          />
+        )}
         <Header />
         <EmotionInput />
         <EmotionDisplay />

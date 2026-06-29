@@ -51,14 +51,14 @@ export default function GlitchCanvas({ emotion, seedHex }: Props) {
       const { time: triggerTime, arousal, dominanceLoss } = triggerRef.current;
       const elapsed = (ts - triggerTime) * 0.001;
 
-      // Glitch decays faster for high arousal (more dramatic), slower for low
-      const decayTau = arousal > 0.6 ? 1.2 : 3.5;
+      // Glitch decays slower for more lasting impact
+      const decayTau = arousal > 0.6 ? 3.0 : 8.0;
       const glitchEnvelope = dominanceLoss * Math.exp(-elapsed / decayTau);
 
       // Arousal burst adds extra glitch at trigger moment
       const burstBonus =
         arousal > 0.6
-          ? (arousal - 0.6) * 0.8 * Math.exp(-elapsed / 0.25)
+          ? (arousal - 0.6) * 1.4 * Math.exp(-elapsed / 0.6)
           : 0;
 
       const totalIntensity = glitchEnvelope + burstBonus;
@@ -68,18 +68,33 @@ export default function GlitchCanvas({ emotion, seedHex }: Props) {
         return;
       }
 
-      if (Math.random() < totalIntensity * 0.45) {
-        const sliceCount = Math.floor(totalIntensity * 12);
+      // Parse seedHex into RGB components for channel splitting
+      const r = parseInt(seedHex.slice(1, 3), 16);
+      const g = parseInt(seedHex.slice(3, 5), 16);
+      const b = parseInt(seedHex.slice(5, 7), 16);
+
+      if (Math.random() < totalIntensity * 0.65) {
+        const sliceCount = Math.floor(totalIntensity * 22);
         for (let i = 0; i < sliceCount; i++) {
           const y = Math.random() * canvas.height;
-          const h = Math.random() * 5 + 1;
-          const offset = (Math.random() - 0.5) * totalIntensity * 70;
-          const alpha = Math.random() * totalIntensity * 0.35;
-          const hexAlpha = Math.round(alpha * 255)
-            .toString(16)
-            .padStart(2, "0");
-          ctx.fillStyle = `${seedHex}${hexAlpha}`;
+          const h = Math.random() * 8 + 1;
+          const offset = (Math.random() - 0.5) * totalIntensity * 120;
+          const alpha = Math.random() * totalIntensity * 0.55;
+
+          // RGB channel split: red/green/blue shifted independently
+          const channelShift = totalIntensity * 18;
+          ctx.fillStyle = `rgba(${r},0,0,${alpha * 0.8})`;
+          ctx.fillRect(offset - channelShift, y, canvas.width, h);
+          ctx.fillStyle = `rgba(0,${g},0,${alpha * 0.8})`;
           ctx.fillRect(offset, y, canvas.width, h);
+          ctx.fillStyle = `rgba(0,0,${b},${alpha * 0.8})`;
+          ctx.fillRect(offset + channelShift, y, canvas.width, h);
+
+          // Full color overlay on some slices
+          if (Math.random() < 0.4) {
+            ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+            ctx.fillRect(offset, y, canvas.width, h);
+          }
         }
       }
 
